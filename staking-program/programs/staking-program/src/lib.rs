@@ -121,9 +121,13 @@ pub mod staking_program {
             ErrorCode::InsufficientStakedAmount
         );
 
-        let seeds: &[&[u8]] = &[b"seed", some_pubkey.as_ref(), &[bump]];
+        let user_key = user.key();
+        let seeds: &[&[u8]] = &[
+            b"stake",
+            user_key.as_ref(),
+            &[stake_account.bump],
+        ];
         let signer_seeds = &[seeds];
-        // let seeds = &[b"stake", user.key().as_ref(), &[stake_account.bump]];
 
         let cpi_context = CpiContext::new_with_signer(
             ctx.accounts.system_program.to_account_info(),
